@@ -19,7 +19,7 @@ from authors as a
 join titleauthor as ta on a.au_id = ta.au_id
 join titles as t on ta.title_id = t.title_id
 join publishers as p on t.pub_id = p.pub_id
-GROUP BY a.au_id;
+GROUP BY a.au_id, a.au_lname, a.au_fname, p.pub_name;
 
 
 ## Challenge 3 - Best Selling Authors
@@ -28,18 +28,19 @@ Who are the top 3 authors who have sold the highest number of titles? Write a qu
 
 SOLUTION3
 
-select a.au_id as AUTHOR_ID, a.au_lname as LAST_NAME, a.au_fname as FIRST_NAME, SUM(s.qty) as TOTAL
-from authors as a
-join titleauthor as ta on a.au_id = ta.au_id
-join sales as s on ta.title_id = s.title_id
-GROUP BY a.au_id
-ORDER BY TOTAL DESC LIMIT 3;
+SELECT a.au_id AS AUTHOR_ID, a.au_lname AS LAST_NAME, a.au_fname AS FIRST_NAME, SUM(t.ytd_sales) AS TOTAL
+FROM authors a
+JOIN titleauthor ta ON a.au_id = ta.au_id
+JOIN titles t ON ta.title_id = t.title_id
+GROUP BY a.au_id, a.au_lname, a.au_fname
+ORDER BY TOTAL DESC
+LIMIT 3;
 
 ## Challenge 4 - Best Selling Authors Ranking
 
-select a.au_id as AUTHOR_ID, a.au_lname as LAST_NAME, a.au_fname as FIRST_NAME, IFNULL(sum(s.qty), 0) as TOTAL
-from authors as a
-left join titleauthor as ta on a.au_id = ta.au_id
-left join sales as s on ta.title_id=s.title_id
-GROUP BY a.au_id
-ORDER BY TOTAL desc;
+SELECT a.au_id AS AUTHOR_ID, a.au_lname AS LAST_NAME, a.au_fname AS FIRST_NAME, IFNULL(SUM(t.ytd_sales), 0) AS TOTAL
+FROM authors a
+LEFT JOIN titleauthor ta ON a.au_id = ta.au_id
+LEFT JOIN titles t ON ta.title_id = t.title_id
+GROUP BY a.au_id, a.au_lname, a.au_fname
+ORDER BY TOTAL DESC;
