@@ -17,6 +17,10 @@ You can explore your database and table on your own, but here's a quicker view o
 
 ## Challenge 1 - Who Have Published What At Where?
 
+select 
+from authors 
+
+
 In this challenge you will write an SQL `SELECT` query that joins various tables to figure out what titles each author has published at which publishers. Your output should have at least the following columns:
 
 - `AUTHOR ID` - the ID of the author
